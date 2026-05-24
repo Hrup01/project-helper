@@ -1,5 +1,3 @@
-
-```markdown
 # Project Helper - 项目学习助手
 
 > 帮助开发者快速理解和分析 GitHub 开源仓库的智能工具
