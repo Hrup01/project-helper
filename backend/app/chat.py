@@ -1,3 +1,4 @@
+import json
 from app import llm
 from app.analyzer import get_project
 from app.database import get_db
