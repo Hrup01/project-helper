@@ -114,7 +114,13 @@ async function ask() {
         const payload = JSON.parse(raw.slice(5).trim())
         if (payload.type === 'delta') assistant.content += payload.content
         if (payload.type === 'tool') assistant.tools.push(payload.message)
-        if (payload.type === 'error') assistant.content += `\n\n${payload.message}`
+        if (payload.type === 'error') {
+          assistant.content += `\n\n${payload.message}`
+          chatStreaming.value = false
+        }
+        if (payload.type === 'done') {
+          chatStreaming.value = false
+        }
       }
     }
   } catch (err) {

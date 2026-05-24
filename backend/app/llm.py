@@ -36,4 +36,8 @@ async def stream_chat(system: str, messages: list[dict[str, str]]):
     ) as stream:
         async for event in stream:
             if event.type == "content.delta":
-                yield event.content
+                content = getattr(event, "content", None)
+                if content is None:
+                    content = getattr(event, "delta", None)
+                if content:
+                    yield content

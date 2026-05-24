@@ -55,9 +55,13 @@ async def stream_answer(project_id: str, question: str):
             },
         ]
         answer_parts: list[str] = []
-        async for token in llm.stream_chat(SYSTEM, messages):
-            answer_parts.append(token)
-            yield {"type": "delta", "content": token}
+        try:
+            async for token in llm.stream_chat(SYSTEM, messages):
+                answer_parts.append(token)
+                yield {"type": "delta", "content": token}
+        except Exception as exc:
+            yield {"type": "error", "message": f"Agent 调用失败：{exc}"}
+            return
         answer = "".join(answer_parts)
     else:
         report = project.get("report") or ""
